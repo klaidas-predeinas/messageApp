@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Messaging App</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      #messages { width: 500px;height: 400px;list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      #m { width: 395px;border: 0.5px black solid;height:25px; }
+      form button { width:95px;height:25px;border: 0.5px solid black;background-color:transparent; }
+      form button:hover { background-color: black;color: white; }
+
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form class="">
+      <input id="m" autocomplete="off">
+      <button>send</button>
+    </form>
+    <ul id="connected"></ul>
+    <ul id="onlineUsers"></ul>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      $(function () {
+        var socket = io();
+        $('form').submit(function(e){
+          e.preventDefault(); // prevents page reloading
+          socket.emit('chat message', $('#m').val());
+          $('#m').val('');
+          return false;
+        });
+        socket.on('chat message', function(msg){
+          $('#messages').append($('<li>').text(msg));
+        });
+        socket.on('online users', function(name) {
+          $('#onlineUsers').append($('<li>').text(name));
+        });
+      });
+    </script>
+  </body>
+</html>
