@@ -4,6 +4,7 @@
   "description": "my first socket.io app",
   "dependencies": {
     "express": "^4.15.2",
+    "fs": "0.0.1-security",
     "socket.io": "^2.2.0"
   }
 }
